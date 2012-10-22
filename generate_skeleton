@@ -1,0 +1,91 @@
+#!/bin/bash
+
+FILE=config-syntax
+
+nr=1
+for option in $(grep -n cfg_opt_t ${FILE} | sed -r "s|(.*):cfg_opt_t ([a-z_]*).*|\1:\2|"); do
+    options[nr]=$(echo $option | awk -F ":" {'print $2'})
+    line_numbers[nr]=$(echo $option | awk -F ":" {'print $1'})
+    nr=$((nr+1))
+done
+MAX_OPT=$((nr-1))
+
+for i in $(seq 1 $MAX_OPT); do
+    NR=${line_numbers[i]}
+    NR=$((NR-1))
+    LINE=$(sed -n "$NR p" $FILE)
+    echo $LINE | grep -q "^/" || LINE="<not commented>"
+    LINE=$(echo $LINE | sed "s@^/*@@")
+    comments[$i]=$LINE
+done    
+
+function print_section () {
+    OK=0
+    local INDENT=""
+    for i in $(seq 1 $2); do
+        INDENT+="\t"
+    done
+
+    for i in $(seq 1 $((MAX_OPT+1))); do
+        echo ${options[i]} | grep -q -w $1 &&  break;
+    done    
+    COMMENT_NR=0
+    if [ $i -le $MAX_OPT ]; then
+        TMPFILE=$(mktemp) 
+        LN=${line_numbers[i]}
+        LN=$((LN+1))
+        sed -n "$LN,$ p" $FILE > $TMPFILE
+        while read line; do
+
+            echo $line | grep -q CFG_END && break
+            # The line is a comment
+            if $(echo $line | grep -q "^/"); then
+                COMMENT_NR=$((COMMENT_NR+1))
+                COMMENT[COMMENT_NR]=$line
+                continue
+            fi    
+            NAME=$(echo $line | sed -r "s@.*\(\"([^\"]*).*@\1@")
+            if $(echo $line | grep -q "^CFG_SEC"); then
+                CFG_SEC=1
+                SECTION=$(echo $line | sed -r "s@[^,]*,\ *([^,]*).*@\1@")
+                TYPE="<section> "
+                TYPE+=${NAME}
+                echo $line | grep -q "CFGF_TITLE" && TYPE+=" <title>"
+                TYPE+=" {"
+            else
+                CFG_SEC=0
+                if $(echo $line | grep -q "^CFG_STR"); then
+                    TYPE=$NAME" <string> "
+                elif $(echo $line | grep -q "^CFG_INT"); then
+                    TYPE=$NAME" <integer> "
+                else 
+                    continue
+                fi    
+                TYPE+=" <default $(echo $line | awk -F "," {'print $2'} | sed "s@^ *@@")>"
+            fi    
+
+            echo $line | grep -q "CFGF_MULTI" && TYPE="<multi>"$TYPE
+            for i in $(seq 1 $COMMENT_NR); do
+                echo -e $INDENT ${COMMENT[i]}
+            done
+            COMMENT_NR=0
+            echo -e $INDENT $TYPE
+            if [ $CFG_SEC -eq 1 ]; then
+                LEVEL=$2
+                LEVEL=$((LEVEL+1))
+                print_section $SECTION $LEVEL
+                echo -e $INDENT "}"
+            fi 
+
+            COMMENT=""
+
+        done < $TMPFILE    
+        rm $TMPFILE 2>/dev/null
+    else
+        echo Not found section $1
+        return 1
+    fi
+    return 0
+}
+
+print_section opts 0

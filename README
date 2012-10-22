@@ -1,0 +1,50 @@
+awesome-status 1.4
+
+This program populates the awesome window manager's widgets.
+
+Features:
+    * cpu usage
+    * date/time
+    * disk usage
+    * lm_sensors (cpu temp, fan rpm,...)
+    * mbox status (thanks to calmar, http://www.calmar.ws/ )
+    * mem/swap information
+    * mpd information
+    * news readers support (newsbeuter and liferea)
+    * network down/upload
+    * run external (shell) programs
+    * soundcard
+    * uptime information
+    * compatible with awesome 2.3 and 3.0git (with lua support)
+
+
+Requirements:
+* libconfuse: it's installed if you have working awesome window manager ;) and its headers (devel) 
+* glibc header files (in debian-based distro its name is libc6 and libc6-devel)
+* pkg-config
+* and the awesome window-manager :)
+Optional:
+* alsa and its headers (if you want to use it, in debian-based distro its name is libasound2-dev)
+* sqlite3 and its headers if you want newsbeuter or liferea support
+
+Installation
+Edit config.mk or run './configure' (if necessary). After that simple 'make' and 'make install'.
+
+An example, commented configuration file is included. And see the config-skeleton file!
+
+The "built-in calculator": see http://en.wikipedia.org/wiki/Reverse_Polish_notation#Example 
+
+I hope it's (relative) bug-free and usable - I can use it :)))
+
+If you want a (non-implemented) feature or discovered a bug (this is impossible :) ) please don't hesitate, 
+use the "official" bug report and feature request "forum": http://udvzsolt.extra.hu/flyspray/
+And if you can send me a simple example program about a wanted plugin (moc,
+xmms2, audacious, etc.) please send me and if I can use it will be included.
+
+Best regards:
+    Zsolt Udvari (udvzsolt@gmail.com, http://udvzsolt.extra.hu/news.php)
+
+
+Ps. This is my first C-program so it isn't beautyful and the best...
+    And of course sorry for my poor english :)
+

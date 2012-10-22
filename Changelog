@@ -1,0 +1,122 @@
+****************** 1.4 *******************
+
+Tue Jul 29 20:34:23 CEST 2008
+    Added some error messages
+Tue Jul 29 14:11:20 CEST 2008
+    Added liferea support (same as newsbeuter) and overwrite these function to
+    more general
+Mon Jul 28 20:44:41 CEST 2008
+    Added newsbeuter support (read from database via sqlite3)
+Wed Jul 23 13:38:43 CEST 2008
+    Added a version.h file to store the version (and removed from
+    awesome-status.c the version)
+    Use pkg-config to get the necessary LD_FLAGS and CFLAGS.
+
+****************** 1.3 *******************
+
+Sat Jul 19 14:03:28 CEST 2008
+    Can run external programs end read its stdout
+    Version 1.3 released
+Wed Jul 16 21:30:43 CEST 2008
+    Documentation cosmetics.
+Wed Jul 16 20:54:48 CEST 2008
+    New documentation added: automatically generated skeleton configfile from
+    the source with simple bash-scripts (there are in tar.bz2)
+Thu Jun 19 11:33:52 CEST 2008
+    Removed 'div' from sensors and added new_value section.
+Wed Jun 18 22:51:09 CEST 2008
+    Removed mem sequences, see "Wed Jun 18 21:45:55 CEST 2008"
+Wed Jun 18 22:05:42 CEST 2008
+    Corrected the "built-in" eth0 to the value taken from config.
+Wed Jun 18 21:45:55 CEST 2008
+    Removed disk sequences, expect $tk and $fk.
+    All of prevesious sequences you can create with calculator (see
+    example-config).
+Wed Jun 18 14:09:19 CEST 2008
+    Added a simple postfix calculator. See:
+    http://en.wikipedia.org/wiki/Reverse_Polish_notation#Example
+Tue Jun 17 20:59:21 CEST 2008
+    Change all strcpy(str,"") to str[0]=0
+Thu May 29 17:56:53 CEST 2008
+    change time_str size to dinamically (malloc)
+    improving mem_info (with and without cached memory)
+
+****************** 1.2.1 ****************
+
+Tue May 27 17:59:13 CEST 2008
+    Added general widget_tell function (can define own message-format so it's
+	compatible with awesome 2.3 and awesome3lua too.
+    Added configuration file-checking (doesn't segfault when config-file
+	syntax is bad).	
+    Version 1.2.1 released.	
+
+****************** 1.2 ******************
+
+Sun May 25 13:12:03 CEST 2008
+    The /proc/asound/* is replaced alsa-lib (alsa-support).
+    Version 1.2 released
+Sat May 17 15:37:42 CEST 2008
+    Added individually update_interval per plugin 
+    Removed quick_regs support in soundcard because this is hardware-specific
+    Later will be using alsa
+Fri May 16 23:49:00 CEST 2008
+    Added mbox-support (thx to calmar to function)
+Fri May 16 22:54:41 CEST 2008
+    Added support cpu sys, user and nice
+Fri May  9 15:14:49 CEST 2008
+    Delete the absoloted macros
+    Change the "constant" memtotalM (758) to the correct value 
+Sun May  4 14:47:07 CEST 2008
+    Change widget_command to widget_property
+
+****************** 1.1 ******************
+
+Sun May  4 12:46:46 CEST 2008
+    Version 1.1 released.
+Sun May  4 11:54:32 CEST 2008
+    Added "disk usage" option
+Sun May  4 11:03:26 CEST 2008
+    Added CFLAGS environment handle to configure script
+    Added --print_default_config option to configure
+Fri May  2 14:55:16 CEST 2008
+    Removed "not ready..." from sample config file (mpd section)
+    Change "Hiba socket" to english "Error in socket" in connect_mpd
+    Change the built-in "localhost" and 6600 (port) to user-specified
+    values (connect_mpd)
+
+****************** 1.0 ******************
+
+Sun Apr 13 15:00:00 CEST 2008
+    Version 1.0 released.
+Sat Apr 12 20:12:28 CEST 2008
+    Convert string to system-codepage in mpd
+Sat Apr 12 19:29:26 CEST 2008
+    All functions controlled via config-file
+Sat Apr 12 00:09:25 CEST 2008
+    Function print_mpd controlled via config-file
+Fri Apr 11 20:55:56 CEST 2008
+    Sensor-specific values read from configfile
+Fri Apr 11 19:08:19 CEST 2008
+    Updated to usability with awesome-2.3-rc1
+    Change widget_tell function's declaration
+Sun Mar 23 19:46:50 CET 2008
+    Integrate awclient.{c,h}
+    Functions print_time, print_uptime, print_cpuinfo, print_meminfo, print_net
+    controlled via config-file (libconfuse) 
+Sun Mar 16 17:29:20 CET 2008
+    Added libconfuse-config via parse_config (only the main interface)
+Thu Mar 13 20:02:09 CET 2008
+    Change output to 'awesome 2.2-rc4'-style
+Wed Mar  5 20:51:30 CET 2008
+    Removed lmpdclient.* (imported from mpc) and use TCP to connect mpd.
+    So the binary and source code size reduced drastic.
+    Some other code cleaning and fopen checking.
+Sun Mar  2 20:37:13 CET 2008
+    Change the variables type in net-plugin to float (prev_in, prev_out, in, out) (because of overflow)
+Sun Mar  2 18:09:17 CET 2008
+    Add float typecast to the calculation of swap_out
+Sun Mar  2 16:45:19 CET 2008
+    Fixed segmentation fault in lm_sensors: missed 'fclose' calling
+Sun Mar  2 12:58:19 CET 2008
+    Fixed segmentation fault when mpd plays mp3 without id3tag.
+

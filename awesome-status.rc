@@ -1,0 +1,317 @@
+#
+# the configuration file is ~/.awesome-status.rc
+#
+# For details see config-skeleton
+#
+
+sockfile = "/home/zsolt/.awesome_ctl.0"
+
+# the awesome 2.3 format
+message_format = "$screen widget_tell $sb_name $widget_name $prop $msg"
+# the awesome3-lua format or similar
+#message_format = "$widget_name:set(\"$prop\",\"$msg\")"
+
+mpd {
+    port = 6600
+    host = localhost
+    interval = 10		    	
+    mpd_msg { 
+        stop_msg = "STOPPED"
+        pause_msg = "<< $A - $T >>"
+        fallback = "$f ($em:$es/$tm:$ts)"
+        msg { widget_name = "tb_mpd"
+            widget_property = "text"
+            message = "$A - $T ($em:$es/$tm:$ts)"
+            sb_name = "sb_status"
+        }    
+    }    
+}    
+
+date { 
+    msg {
+        sb_name    = "sb_system"
+        widget_name = "tb_date"
+        widget_property = "text"
+        message    = "%Y. %B %d, %A" 
+    }
+    msg {
+        sb_name = "sb_system"
+        widget_name = "tb_time"
+        widget_property = "text"
+        message = "%H:%M:%S"
+    }    
+}    
+
+#
+# mbox is implemented so if you want to use 
+# please remove the #'s and configure it
+#
+
+#mbox {
+#    interval = 3600 // in every 6 minute
+#    file = "/home/zsolt/mbox"
+#    msg {
+#        sb_name = "sb_status"
+#        widget_name = "tb_mail"
+#        widget_property = "text"
+#        message = "$u mail"
+#    }    
+#    # Sequence: $u - number of unread messages
+#}    
+
+news {
+    interval = 300
+    news {
+        file = "/home/zsolt/.newsbeuter/cache.db"
+        client = "newsbeuter"
+        msg {
+            sb_name = "sb_status"
+            widget_name = "tb_rss"
+            widget_property = "text"
+            message = "$U"
+        }
+    }
+}
+
+disks {
+    disk {
+        mnt_point = "/"
+        blocksize = 4 
+        precision = 0 
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "pb_root"
+            widget_property = "data d_root"
+            message = "$up"
+        }
+    }
+    disk {
+        mnt_point = "/var/cache/pacman-g2/"
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "pb_packs"
+            widget_property = "data d_packs"
+            message = "$up"
+        }
+    }    
+    disk {
+        mnt_point = "/Storage"
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "pb_storage"
+            widget_property = "data d_storage"
+            message = "$up"
+        }
+    }    
+    disk {
+    	mnt_point = "/pub/st1"
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+	msg {
+            sb_name = "sb_system"
+            widget_name = "pb_st1"
+            widget_property = "data d_st1"
+            message = "$up"
+       }
+    } 
+    disk {
+    	mnt_point = "/pub/st2"
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+	msg {
+            sb_name = "sb_system"
+            widget_name = "pb_st2"
+            widget_property = "data d_st2"
+            message = "$up"
+       }
+    }
+    disk {
+        mnt_point = "/pub/iso"
+        new_value "$up" { # used percent
+            value = "$tk $fk - $tk / 100 *"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "pb_iso"
+            widget_property = "data d_iso"
+            message = "$up"
+        }
+    }    
+}    
+
+snd {
+    interval = 10
+    mixer {
+        mixer_name = "PCM"
+        msg {
+            widget_name = "pb_volume_pcm"
+            widget_property = "data d_vol_pcm"
+            message = "$v"
+            sb_name = "sb_status"
+        }
+    }
+    mixer {
+        mixer_name = "Headphone"
+        msg {
+            widget_name = "pb_volume_master"
+            widget_property = "data d_vol_master"
+            message = "$v"
+            sb_name = "sb_status"
+        }
+    }    
+}
+
+cpu {
+    file_stat = "/proc/stat"
+    file_info = "/proc/cpuinfo"
+    precision = 0
+    msg {
+        sb_name = "sb_system"
+        widget_name = "tb_cpu"
+        widget_property = "text"
+        message = "$cpu%"
+    }
+    msg {
+        sb_name = "sb_system"
+        widget_name = "gr_cpu"
+        widget_property = "data d_cpu"
+        message = "$cpu"
+    }    
+}    
+
+sensors {
+    sensor {
+        file = "/sys/devices/platform/it87.656/fan1_input"
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_cpu_fan"
+            widget_property = "text"
+            message = "$V"
+        }    
+    }
+    sensor {
+        file = "/sys/devices/platform/it87.656/fan2_input"
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_case_fan"
+            widget_property = "text"
+            message = "$V"
+        }
+    }    
+    sensor {
+        file = "/sys/devices/platform/it87.656/temp2_input"
+        # divide by 1000
+        new_value "$cels" {
+            value = "$V 1000 /"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_cpu_temp"
+            widget_property = "text"
+            message = "$cels C"
+        }
+    }    
+    sensor {
+        file = "/sys/devices/platform/it87.656/temp1_input"
+        new_value "$cels" {
+            value = "$V 1000 /"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_mb_temp"
+            widget_property = "text"
+            message = "$cels C"
+        }
+    }    
+    sensor {
+        file = "/sys/devices/platform/it87.656/temp3_input"
+        new_value "$cels" {
+            value = "$V 1000 /"
+        }
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_case_temp"
+            widget_property = "text"
+            message = "$cels C"
+        }
+    }    
+}    
+
+net {
+    ifs {
+        nif="eth0"
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_net_down"
+            widget_property = "text"
+            message = "$in_kbps kps"
+        }    
+        msg {
+            sb_name = "sb_system"
+            widget_name = "tb_net_up"
+            widget_property = "text"
+            message = "$out_kbps kps"
+        }    
+        msg {
+            sb_name = "sb_system"
+            widget_name = "gr_net_in"
+            widget_property = "data d_net_in"
+            message = "$in_kbps"
+        }    
+        msg {
+            sb_name = "sb_system"
+            widget_name = "gr_net_out"
+            widget_property = "data d_net_out"
+            message = "$out_kbps"
+        }    
+    }    
+}
+
+mem {
+    file = "/proc/meminfo"
+    precision = 1
+
+    new_value "$memusedp" {
+        value = "$memtotalK $memfreeK - $memcachedK - $memtotalK / 100 *"
+    }
+    new_value "$swapusedp" {
+        value = "$swaptotalK $swapfreeK - $swaptotalK / 100 *"
+    }
+
+    msg {
+        message = "$memusedp%"
+        sb_name = "sb_system"
+        widget_property = "text"
+        widget_name = "tb_mem"
+    }
+    msg {
+        message = "$swapusedp%"
+        sb_name = "sb_system"
+        widget_property = "text"
+        widget_name = "tb_swap"
+    }
+}
+
+uptime {
+    interval = 20
+    msg {
+        message = "Uptime: $H:$M"
+        sb_name = "sb_system"
+        widget_property = "text"
+        widget_name = "tb_uptime"
+    }
+}    
+
+#vim:filetype=config
+
